@@ -19,8 +19,8 @@ def saveLasFromPoints(filePath, interpolatedPoints):
 
     las = laspy.LasData(header)
 
-    las.x = interpolatedPoints[:, 0]
-    las.y = interpolatedPoints[:, 1]
-    las.z = interpolatedPoints[:, 2]
+    las.x = np.array(interpolatedPoints[:, 0])
+    las.y = np.array(interpolatedPoints[:, 1])
+    las.z = np.array(interpolatedPoints[:, 2])
 
     las.write(filePath)

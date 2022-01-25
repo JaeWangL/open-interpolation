@@ -10,7 +10,7 @@ def testLoadLas():
 def testInterpolate():
     points = loadFromTxt(r'./tests/xyz_utm58s_no_edge.txt')
     points_interpolated = interpolation(points[:, 0], points[:, 1], points[:, 2], showPlot=True)
-    saveTxtFromPoints(r'./output.txt', points_interpolated)
+    saveLasFromPoints(r'./output.las', points_interpolated)
 
 if __name__ == '__main__':
     testInterpolate()
