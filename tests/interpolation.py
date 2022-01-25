@@ -3,7 +3,7 @@ from matplotlib import cm
 import numpy as np
 from scipy.interpolate import griddata
 
-def interpolation(xValues, yValues, zValues, denseNum = 1000, method='linear', showPlot = False):
+def interpolation(xValues, yValues, zValues, denseNum = 1000, method='linear', removeNan = True, showPlot = False):
     """
     Function for interpolation with given 3d points
 
@@ -33,4 +33,8 @@ def interpolation(xValues, yValues, zValues, denseNum = 1000, method='linear', s
         surf = ax.plot_wireframe(X, Y, Z)
         plt.show()
 
-    return np.column_stack((X.ravel(), Y.ravel(), Z.ravel()))
+    interpolatedPoints = np.column_stack((X.ravel(), Y.ravel(), Z.ravel()))
+    if removeNan == True:
+        return interpolatedPoints[~np.isnan(interpolatedPoints).any(axis=1)]
+    
+    return interpolatedPoints
