@@ -4,13 +4,16 @@ from tests.load_txt import loadFromTxt
 from tests.save_las import saveLasFromPoints
 from tests.save_txt import saveTxtFromPoints
 
-def testLoadLas():
-    loadFromLas(r'./output.las')
-
-def testInterpolate():
-    points = loadFromTxt(r'./tests/xyz_utm58s_no_edge.txt')
+def testLas(filePath):
+    points = loadFromTxt(filePath)
     points_interpolated = interpolation(points[:, 0], points[:, 1], points[:, 2], showPlot=True)
     saveLasFromPoints(r'./output.las', points_interpolated)
 
+def testTxt(filePath):
+    points = loadFromTxt(filePath)
+    points_interpolated = interpolation(points[:, 0], points[:, 1], points[:, 2], showPlot=True)
+    saveTxtFromPoints(r'./output.txt', points_interpolated)
+
 if __name__ == '__main__':
-    testInterpolate()
+    testLas(r'./tests/xyz_utm58s_no_edge.txt')
+    testTxt(r'./tests/xyz_utm58s_no_edge.txt')
