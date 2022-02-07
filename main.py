@@ -33,7 +33,7 @@ def custom_openapi():
         return app.openapi_schema
     openapi_schema = get_openapi(
         title="Open Interpolation API",
-        version="0.1.0",
+        version="0.2.1",
         description="Open API for interpoation with any (n, 3) point clouds",
         routes=app.routes,
     )
