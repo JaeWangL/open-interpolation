@@ -1,7 +1,8 @@
 import os.path
 import numpy as np
 from fastapi import UploadFile
-from typing import IO
+from io import StringIO
+from typing import IO, Iterator
 
 def checkValidExtensions(filename: str) -> bool:
     extensions = os.path.splitext(filename)[1]
@@ -22,3 +23,9 @@ def readPointsFile(file: UploadFile):
     points = pointsFromTxt(file.file)
 
     return points
+
+def pointsToFile(interpolatedPoints) -> Iterator[str]:
+    outFileAsStr = StringIO()
+    np.savetxt(outFileAsStr, interpolatedPoints, '%.5f')
+
+    return iter([outFileAsStr.getvalue()])
