@@ -1,7 +1,9 @@
 import uvicorn
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.openapi.utils import get_openapi
-from app.helpers.file_helper import checkValidExtensions, readPointsFile
+from fastapi.responses import StreamingResponse
+from tempfile import TemporaryFile
+from app.helpers.file_helper import checkValidExtensions, readPointsFile, pointsToFile
 from app.services.interpolation_service import getInterpolatedPoints
 
 app = FastAPI()
@@ -16,9 +18,16 @@ async def uploadfile(file: UploadFile) -> dict:
         raise HTTPException(status_code=400, detail="File extension is not .txt or .las")
     
     points = readPointsFile(file)
-    interpolated = getInterpolatedPoints(points[:, 0], points[:, 1], points[:, 2])
+    interpolatedPoints = getInterpolatedPoints(points[:, 0], points[:, 1], points[:, 2])
 
-    return {'filename': file.filename}
+    return StreamingResponse(
+        pointsToFile(interpolatedPoints),
+        media_type='application/octet-stream',
+        headers={
+            'Content-Disposition': 'attachment;filename=interpolated.txt',
+            'Access-Control-Expose-Headers': 'Content-Disposition'
+        }
+    )
 
 def custom_openapi():
     if app.openapi_schema:
@@ -34,7 +43,6 @@ def custom_openapi():
     }
     app.openapi_schema = openapi_schema
     return app.openapi_schema
-
 
 app.openapi = custom_openapi
 
