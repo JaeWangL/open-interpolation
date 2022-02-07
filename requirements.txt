@@ -1,0 +1,5 @@
+fastapi==0.73.0
+joblib==1.10
+numpy==1.22.2
+scikit-learn==1.0.2
+uvicorn==0.17.4
