@@ -1,5 +1,5 @@
 fastapi==0.73.0
-joblib==1.10
+joblib==1.1.0
 numpy==1.22.2
 pydantic==1.9.0
 scikit-learn==1.0.2
