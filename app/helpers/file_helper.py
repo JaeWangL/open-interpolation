@@ -11,6 +11,13 @@ def checkValidExtensions(filename: str) -> bool:
     
     return any(x in extensions for x in validExtensions)
 
+def pointsFromLas(file: IO):
+    las = laspy.read(file)
+    print('Points from data:', len(las.points))
+    ground_points = las.classification == 2
+
+    return ground_points
+
 def pointsFromTxt(file: IO, delimiter=' '):
     points = np.loadtxt(file, delimiter=delimiter)
 
@@ -18,10 +25,12 @@ def pointsFromTxt(file: IO, delimiter=' '):
 
 def readPointsFile(file: UploadFile):
     extensions = os.path.splitext(file.filename)[1]
-    if 'txt' not in extensions:
-        return None
 
-    points = pointsFromTxt(file.file)
+    points = None
+    if 'txt' in extensions:
+        points = pointsFromTxt(file.file)
+    if 'las' in extensions:
+        points = pointsFromLas(file.file)
 
     return points
 

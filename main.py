@@ -17,6 +17,9 @@ async def uploadfile(file: UploadFile) -> dict:
         raise HTTPException(status_code=400, detail="File extension is not .txt or .las")
     
     points = readPointsFile(file)
+    if points is None:
+        raise HTTPException(status_code=500, detail="Parser could not read points")
+
     interpolatedPoints = getInterpolatedPoints(points[:, 0], points[:, 1], points[:, 2])
 
     return StreamingResponse(
@@ -33,7 +36,7 @@ def custom_openapi():
         return app.openapi_schema
     openapi_schema = get_openapi(
         title="Open Interpolation API",
-        version="0.2.1",
+        version="0.2.2",
         description="Open API for interpoation with any (n, 3) point clouds",
         routes=app.routes,
     )
