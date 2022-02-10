@@ -12,6 +12,4 @@ def loadFromLas(filePath):
         points: simple numpy (n, 3) array containing (x, y, z)
     """
     las = laspy.read(filePath)
-    print(np.vstack((las.x, las.y, las.z)).transpose())
-
     return np.vstack((las.x, las.y, las.z)).transpose()

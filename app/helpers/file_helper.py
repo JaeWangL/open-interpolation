@@ -13,10 +13,7 @@ def checkValidExtensions(filename: str) -> bool:
 
 def pointsFromLas(file: IO):
     las = laspy.read(file)
-    print('Points from data:', len(las.points))
-    ground_points = las.classification == 2
-
-    return ground_points
+    return np.vstack((las.x, las.y, las.z)).transpose()
 
 def pointsFromTxt(file: IO, delimiter=' '):
     points = np.loadtxt(file, delimiter=delimiter)
