@@ -1,4 +1,5 @@
 import laspy
+import numpy as np
 
 def loadFromLas(filePath):
     """
@@ -11,6 +12,6 @@ def loadFromLas(filePath):
         points: simple numpy (n, 3) array containing (x, y, z)
     """
     las = laspy.read(filePath)
-    print('Points from data:', len(las.points))
-    ground_points = las.classification == 2
-    print(ground_points)
+    print(np.vstack((las.x, las.y, las.z)).transpose())
+
+    return np.vstack((las.x, las.y, las.z)).transpose()
